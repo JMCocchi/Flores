@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti, con todo mi corazón</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose:    #c0405a;
+    --deep:    #7b1d35;
+    --blush:   #f2c4ce;
+    --cream:   #fdf5ef;
+    --gold:    #c9a96e;
+    --dark:    #1a0a10;
+    --leaf:    #4a7c59;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── PETALS ── */
+  .petal-layer {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    top: -40px;
+    width: 12px; height: 18px;
+    border-radius: 60% 40% 60% 40% / 70% 30% 70% 30%;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(0)   rotate(0deg)   translateX(0);   opacity: 0; }
+    5%   { opacity: .75; }
+    90%  { opacity: .55; }
+    100% { transform: translateY(110vh) rotate(540deg) translateX(60px); opacity: 0; }
+  }
+
+  /* ── WRAPPER ── */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 480px; margin: 0 auto;
+    padding: 0 0 60px;
+  }
+
+  /* ── HERO / BOUQUET ── */
+  .hero {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 60px 24px 20px;
+    text-align: center;
+  }
+
+  .bouquet-wrap {
+    position: relative;
+    width: 240px; height: 300px;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 30px 40px rgba(192,64,90,.45));
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-14px); }
+  }
+
+  .bouquet-wrap svg { width: 100%; height: 100%; }
+
+  /* ── TITLE ── */
+  .title-block { padding: 12px 28px 0; text-align: center; }
+  .title-block h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(2rem, 8vw, 2.6rem);
+    line-height: 1.15;
+    color: var(--blush);
+    letter-spacing: .01em;
+    animation: fadeUp .9s .2s both;
+  }
+  .title-block .gold-line {
+    display: block; width: 60px; height: 1px;
+    background: var(--gold); margin: 18px auto 0;
+    animation: grow .8s .6s both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(24px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  @keyframes grow {
+    from { width: 0; opacity:0; }
+    to   { width: 60px; opacity:1; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    margin: 36px 20px 0;
+    background: rgba(253,245,239,.04);
+    border: 1px solid rgba(201,169,110,.18);
+    border-radius: 20px;
+    padding: 36px 28px;
+    backdrop-filter: blur(6px);
+    animation: fadeUp .9s .5s both;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '❝';
+    position: absolute; top: 12px; left: 18px;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; color: var(--rose);
+    opacity: .18; line-height: 1;
+  }
+
+  .card p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: rgba(253,245,239,.88);
+    margin-bottom: 1.1em;
+  }
+  .card p:last-child { margin-bottom: 0; }
+
+  .card .highlight {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--blush);
+    font-size: 1.12rem;
+  }
+
+  /* ── SIGNATURE ── */
+  .signature {
+    text-align: right;
+    margin-top: 28px;
+    animation: fadeUp .9s .8s both;
+  }
+  .signature span {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--gold);
+  }
+
+  /* ── HEART PULSE ── */
+  .heart-section {
+    display: flex; justify-content: center; align-items: center;
+    padding: 44px 0 10px;
+    animation: fadeUp .9s 1s both;
+  }
+  .heart {
+    font-size: 3rem;
+    animation: pulse 1.3s ease-in-out infinite;
+    filter: drop-shadow(0 0 18px rgba(192,64,90,.8));
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.22); }
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: .78rem;
+    color: rgba(253,245,239,.3);
+    padding-top: 8px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<div class="petal-layer" id="petals"></div>
+
+<div class="page">
+
+  <!-- Bouquet SVG -->
+  <div class="hero">
+    <div class="bouquet-wrap">
+      <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- RIBBON -->
+        <path d="M108 260 Q100 275 90 285" stroke="#c9a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M132 260 Q140 275 150 285" stroke="#c9a96e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="120" cy="262" rx="16" ry="7" fill="#c9a96e" opacity=".9"/>
+
+        <!-- STEMS -->
+        <line x1="120" y1="260" x2="105" y2="175" stroke="#4a7c59" stroke-width="3" stroke-linecap="round"/>
+        <line x1="120" y1="260" x2="120" y2="165" stroke="#4a7c59" stroke-width="3" stroke-linecap="round"/>
+        <line x1="120" y1="260" x2="135" y2="175" stroke="#4a7c59" stroke-width="3" stroke-linecap="round"/>
+        <line x1="120" y1="258" x2="88"  y2="185" stroke="#4a7c59" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="120" y1="258" x2="152" y2="185" stroke="#4a7c59" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="120" y1="256" x2="72"  y2="200" stroke="#4a7c59" stroke-width="2" stroke-linecap="round"/>
+        <line x1="120" y1="256" x2="168" y2="200" stroke="#4a7c59" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- LEAVES -->
+        <ellipse cx="95" cy="222" rx="14" ry="7" fill="#4a7c59" transform="rotate(-35 95 222)" opacity=".9"/>
+        <ellipse cx="145" cy="222" rx="14" ry="7" fill="#4a7c59" transform="rotate(35 145 222)" opacity=".9"/>
+        <ellipse cx="80" cy="210" rx="11" ry="5" fill="#3d6b4a" transform="rotate(-50 80 210)" opacity=".8"/>
+        <ellipse cx="160" cy="210" rx="11" ry="5" fill="#3d6b4a" transform="rotate(50 160 210)" opacity=".8"/>
+
+        <!-- helper: rose macro -->
+        <!-- BIG ROSE center -->
+        <g transform="translate(120,130)">
+          <circle cx="0" cy="0" r="22" fill="#a82d48"/>
+          <ellipse cx="-8"  cy="-12" rx="13" ry="18" fill="#c0405a" transform="rotate(-30)" opacity=".95"/>
+          <ellipse cx="10"  cy="-10" rx="12" ry="17" fill="#c0405a" transform="rotate(20)"  opacity=".95"/>
+          <ellipse cx="0"   cy="-14" rx="11" ry="16" fill="#d45570" opacity=".9"/>
+          <ellipse cx="-5"  cy="-5"  rx="9"  ry="13" fill="#e0718a" opacity=".85"/>
+          <ellipse cx="5"   cy="-5"  rx="8"  ry="12" fill="#e0718a" opacity=".85"/>
+          <circle  cx="0"   cy="0"   r="7"   fill="#f2a0b0" opacity=".7"/>
+          <circle  cx="0"   cy="0"   r="3.5" fill="#fce4eb"/>
+        </g>
+
+        <!-- ROSE left -->
+        <g transform="translate(88,155) scale(.78)">
+          <circle cx="0" cy="0" r="22" fill="#9c2840"/>
+          <ellipse cx="-8"  cy="-12" rx="13" ry="18" fill="#b83a52" transform="rotate(-30)" opacity=".95"/>
+          <ellipse cx="10"  cy="-10" rx="12" ry="17" fill="#b83a52" transform="rotate(20)"  opacity=".95"/>
+          <ellipse cx="0"   cy="-14" rx="11" ry="16" fill="#cc6080" opacity=".9"/>
+          <ellipse cx="-5"  cy="-5"  rx="9"  ry="13" fill="#d87890" opacity=".85"/>
+          <circle  cx="0"   cy="0"   r="6"   fill="#f0a0b0" opacity=".7"/>
+        </g>
+
+        <!-- ROSE right -->
+        <g transform="translate(152,155) scale(.78)">
+          <circle cx="0" cy="0" r="22" fill="#9c2840"/>
+          <ellipse cx="-8"  cy="-12" rx="13" ry="18" fill="#b83a52" transform="rotate(-30)" opacity=".95"/>
+          <ellipse cx="10"  cy="-10" rx="12" ry="17" fill="#b83a52" transform="rotate(20)"  opacity=".95"/>
+          <ellipse cx="0"   cy="-14" rx="11" ry="16" fill="#cc6080" opacity=".9"/>
+          <ellipse cx="5"   cy="-5"  rx="8"  ry="12" fill="#d87890" opacity=".85"/>
+          <circle  cx="0"   cy="0"   r="6"   fill="#f0a0b0" opacity=".7"/>
+        </g>
+
+        <!-- SMALL ROSES outer -->
+        <g transform="translate(70,178) scale(.6)">
+          <circle cx="0" cy="0" r="22" fill="#8b2038"/>
+          <ellipse cx="-7" cy="-11" rx="12" ry="17" fill="#aa3850" transform="rotate(-30)" opacity=".95"/>
+          <ellipse cx="8"  cy="-9"  rx="11" ry="16" fill="#aa3850" transform="rotate(20)"  opacity=".95"/>
+          <circle  cx="0"  cy="0"   r="6"   fill="#e8a0b0" opacity=".7"/>
+        </g>
+        <g transform="translate(170,178) scale(.6)">
+          <circle cx="0" cy="0" r="22" fill="#8b2038"/>
+          <ellipse cx="-7" cy="-11" rx="12" ry="17" fill="#aa3850" transform="rotate(-30)" opacity=".95"/>
+          <ellipse cx="8"  cy="-9"  rx="11" ry="16" fill="#aa3850" transform="rotate(20)"  opacity=".95"/>
+          <circle  cx="0"  cy="0"   r="6"   fill="#e8a0b0" opacity=".7"/>
+        </g>
+
+        <!-- WHITE SMALL FLOWERS (gypsophila) -->
+        <g opacity=".85">
+          <circle cx="62"  cy="158" r="5" fill="#fce8ed"/>
+          <circle cx="60"  cy="148" r="4" fill="#fff0f3"/>
+          <circle cx="70"  cy="145" r="3.5" fill="#fce8ed"/>
+          <circle cx="175" cy="158" r="5" fill="#fce8ed"/>
+          <circle cx="178" cy="148" r="4" fill="#fff0f3"/>
+          <circle cx="169" cy="145" r="3.5" fill="#fce8ed"/>
+          <circle cx="100" cy="110" r="4" fill="#fff0f3"/>
+          <circle cx="140" cy="110" r="4" fill="#fff0f3"/>
+          <circle cx="120" cy="100" r="3.5" fill="#fce8ed"/>
+        </g>
+
+        <!-- SPARKLES -->
+        <g fill="#c9a96e" opacity=".7">
+          <polygon points="55,120 57,126 63,126 58,130 60,136 55,132 50,136 52,130 47,126 53,126" transform="scale(.55) translate(-10,-30)"/>
+          <polygon points="185,100 187,106 193,106 188,110 190,116 185,112 180,116 182,110 177,106 183,106" transform="scale(.5) translate(90,-20)"/>
+          <circle cx="52" cy="132" r="2"/>
+          <circle cx="192" cy="115" r="2"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="title-block">
+    <h1>Para ti,<br>con todo mi corazón</h1>
+    <span class="gold-line"></span>
+  </div>
+
+  <!-- Letter card -->
+  <div class="card">
+    <p>Sé que las palabras a veces llegan tarde, y que el daño que se hace con el silencio o con los errores puede pesar mucho. <span class="highlight">Pero hoy quiero que sepas que me arrepiento de verdad.</span></p>
+    <p>No busco excusas. Solo quiero que sepas que lo que tenemos vale infinitamente más que cualquier orgullo, cualquier mal momento o cualquier palabra que no debí haber dicho.</p>
+    <p><span class="highlight">Eres lo más importante que tengo</span>, y he sido un tonto al no demostrártelo como mereces cada día. Nadie me hace reír como tú, nadie me conoce como tú, nadie me hace querer ser mejor persona como tú.</p>
+    <p>Te pido perdón con todo lo que soy. No como una frase vacía, sino como una promesa: voy a esforzarme para que lo que sea que rompió esto nunca vuelva a pasar.</p>
+    <p class="highlight" style="text-align:center; font-size:1.18rem;">¿Me das otra oportunidad?</p>
+  </div>
+
+  <!-- Heart -->
+  <div class="heart-section">
+    <span class="heart">❤️</span>
+  </div>
+
+  <!-- Signature -->
+  <div class="signature">
+    <span>Con amor, siempre tuyo 🌹</span>
+  </div>
+
+  <p class="footer" style="margin-top:40px;">Escrito desde el corazón</p>
+</div>
+
+<script>
+  /* Generate falling petals */
+  const layer = document.getElementById('petals');
+  const colors = ['#c0405a','#d45570','#f2c4ce','#e0718a','#fce8ed','#a82d48'];
+  const count = 28;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${8 + Math.random()*10}px;
+      height: ${12 + Math.random()*12}px;
+      animation-duration: ${6 + Math.random()*8}s;
+      animation-delay: ${Math.random()*10}s;
+      border-radius: ${Math.random()>0.5?'60% 40% 60% 40% / 70% 30% 70% 30%':'50% 50% 50% 50%'};
+      opacity: 0;
+    `;
+    layer.appendChild(p);
+  }
+</script>
+</body>
+</html>
